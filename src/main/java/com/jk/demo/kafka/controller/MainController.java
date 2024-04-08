@@ -3,8 +3,6 @@ package com.jk.demo.kafka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +21,7 @@ public class MainController {
     private String topic;
 
     public void sendMessage(String message) {
-        String topic = "quickstart-events";
+        System.out.println("sendMessage ================= Kafka topic is "+ topic);
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, message);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
@@ -36,6 +34,7 @@ public class MainController {
 
     @PostMapping("/publish")
     public void publish(@RequestParam String message) {
+        System.out.println("publish================= Kafka topic is "+ topic);
         sendMessage(message);
     }
 }
